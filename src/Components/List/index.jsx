@@ -5,16 +5,19 @@ import { Pagination } from '@mantine/core';
 function List() {
     const settings = useContext(SettingContext);
     let list = settings.list;
+
     const [currentPage, setCurrentPage] = useState(1);
     // Number of items to display per page
-    const itemsPerPage = 3;
+    const itemsPerPage = settings.itemsPerPage;
 
     const handlePageChange = (page) => {
         setCurrentPage(page);
     };
 
     //check if the item complete or not
-     list = list.filter(element => element.complete === false);
+    if (settings.showCompleted === false) {
+        list = list.filter(element => element.complete === false);
+    }
 
     console.log("list", list)
 
