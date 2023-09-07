@@ -4,6 +4,9 @@ function Header() {
     return (
         <header>
             <h1>to do list</h1>
+            <Link to="/" className="link">
+                Home
+            </Link>
             <Link to="/Settings" className="link">
                 Settings
             </Link>
