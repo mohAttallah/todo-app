@@ -1,9 +1,34 @@
-$primary-color: #007bff;
+$primary-color: #61677A;
+$font-color: #FFF6E0;
 
-header {
+nav {
+    font-family: sans-serif;
     background-color: $primary-color;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    color: $font-color;
 
     h1 {
-        color: white;
+        font-size: 26px;
+    }
+
+    div {
+        .link {
+            color: $font-color;
+            font-size: 18px;
+            padding-left: 25px;
+            text-decoration: none;
+        }
     }
 }
+
+
+
+/*
+272829
+61677A
+D8D9DA
+FFF6E0
+
+*/
