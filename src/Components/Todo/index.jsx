@@ -2,7 +2,7 @@ import { useEffect, useState, useContext } from 'react';
 import useForm from '../../hooks/form';
 import { v4 as uuid } from 'uuid';
 import { SettingContext } from '../../Context/Settings';
-
+import "./todo.scss"
 const Todo = () => {
     const settings = useContext(SettingContext);
 
@@ -41,14 +41,9 @@ const Todo = () => {
     }, [settings.list]);
 
     return (
-        <>
-            <header data-testid="todo-header">
-                <h1 data-testid="todo-h1">To Do List: {settings.incomplete} items pending</h1>
-            </header>
+            <form onSubmit={handleSubmit} className='todo-section'>
 
-            <form onSubmit={handleSubmit}>
-
-                <h2>Add To Do Item</h2>
+                <h4>Add To Do Item</h4>
 
                 <label>
                     <span>To Do Item</span>
@@ -70,7 +65,7 @@ const Todo = () => {
                 </label>
             </form>
 
-        </>
+
     );
 };
 
