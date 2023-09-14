@@ -2,6 +2,7 @@ import { useEffect, useState, useContext } from 'react';
 import useForm from '../../hooks/form';
 import { v4 as uuid } from 'uuid';
 import { SettingContext } from '../../Context/Settings';
+import Auth from '../Auth/auth';
 import "./todo.scss"
 const Todo = () => {
     const settings = useContext(SettingContext);
@@ -16,8 +17,6 @@ const Todo = () => {
 
     function addItem(item) {
         item.id = uuid();
-        console.log(item);
-
         item.complete = false;
         // destruct prevoius array then set a new one 
         settings.setList([...settings.list, item]);
@@ -41,29 +40,26 @@ const Todo = () => {
     }, [settings.list]);
 
     return (
-            <form onSubmit={handleSubmit} className='todo-section'>
-
+        <form onSubmit={handleSubmit} className='todo-section'>
+            <Auth capability='writer'>
                 <h4>Add To Do Item</h4>
-
                 <label>
                     <span>To Do Item</span>
                     <input onChange={handleChange} name="text" type="text" placeholder="Item Details" />
                 </label>
-
                 <label>
                     <span>Assigned To</span>
                     <input onChange={handleChange} name="assignee" type="text" placeholder="Assignee Name" />
                 </label>
-
                 <label>
                     <span>Difficulty</span>
                     <input onChange={handleChange} defaultValue={defaultValues.difficulty} type="range" min={1} max={5} name="difficulty" />
                 </label>
-
                 <label>
                     <button type="submit">Add Item</button>
                 </label>
-            </form>
+            </Auth>
+        </form>
 
 
     );
