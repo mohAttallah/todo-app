@@ -4,20 +4,23 @@ import SettingsForm from './Components/SettingsForm';
 import Home from './Components/Home';
 import { SettingsProvider } from './Context/Settings';
 import Layout from './Components/layout';
+import { LoginProvider } from './Components/Auth/context'
+
 export default class App extends React.Component {
     render() {
         return (
-
-            <SettingsProvider >
-                <Router>
-                    <Layout>
-                        <Routes>
-                            <Route path='/' element={< Home />} />
-                            <Route path='/Settings' element={<SettingsForm />} />
-                        </Routes>
-                    </Layout>
-                </Router>
-            </SettingsProvider >
+            <LoginProvider>
+                <SettingsProvider >
+                    <Router>
+                        <Layout>
+                            <Routes>
+                                <Route path='/' element={< Home />} />
+                                <Route path='/Settings' element={<SettingsForm />} />
+                            </Routes>
+                        </Layout>
+                    </Router>
+                </SettingsProvider >
+            </LoginProvider>
 
         );
     }

@@ -5,9 +5,7 @@ import "./settingsForm.scss"
 
 function SettingsForm() {
     const settings = useContext(SettingContext)
-    // const handleCheckboxChange = (e) => {
-
-    // };
+ 
 
     const handleSubmit = (e) => {
         e.preventDefault();

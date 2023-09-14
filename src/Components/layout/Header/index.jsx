@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import "./header.scss"
+import Login  from "../../Auth/login";
 function Header() {
     return (
         <nav>
@@ -11,6 +12,7 @@ function Header() {
                 <Link to="/Settings" className="link">
                     Settings
                 </Link>
+                <Login />
             </div>
 
         </nav>
