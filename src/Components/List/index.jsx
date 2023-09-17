@@ -17,6 +17,8 @@ function List() {
     //check if the item complete or not
     if (settings.showCompleted === false) {
         list = list.filter(element => element.complete === false);
+    } else {
+        list = list.filter(element => element.complete === true);
     }
 
     console.log("list", list)

@@ -26,7 +26,7 @@ function SettingsForm() {
                 <form onSubmit={handleSubmit} className='left-section'>
                     <h3>Update Settings</h3>
                     <label htmlFor="numericInput">Enter a number between 1 and 100:</label>
-                    <input type="number" id="numericInput" name="numericInput" min="1" max="100" step="1" />
+                    <input type="number" id="numericInput" name="numericInput" min="1" max="100" step="1"  />
                     <label htmlFor="scales">
                         Show Completed
                         <input type="checkbox" id="scales" name="scales" />

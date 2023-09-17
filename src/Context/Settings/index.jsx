@@ -13,7 +13,7 @@ function SettingsProvider(props) {
 
     const [itemsPerPage, setItemsPerPage] = useState(() => {
         const savedItemsPerPage = JSON.parse(localStorage.getItem("itemsPerPage"));
-        return savedItemsPerPage !== null ? savedItemsPerPage : 3;
+        return savedItemsPerPage !== "" ? savedItemsPerPage : 3;
     });
 
     const [showCompleted, setShowCompleted] = useState(() => {
