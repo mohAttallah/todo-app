@@ -1,40 +1,46 @@
-// import { LoginContext } from '../context/AuthContext';
-// import { useContext, useState } from 'react';
+import { useContext, useState } from 'react';
+import { When } from 'react-if';
+import { LoginContext } from '../../Context/Auth/context';
 
-// function Login() {
+function Login() {
+    const context = useContext(LoginContext);
+    const [state, setState] = useState({ username: '', password: '' });
+    const handleChange = e => {
+        setState({ ...state, [e.target.name]: e.target.value });
+    };
 
-//     const [username, setUsername] = useState('');
-//     const [password, setPassword] = useState('');
+    const handleSubmit = e => {
+        e.preventDefault();
+        context.login(state.username, state.password);
+    };
 
-//     const loginContext = useContext(LoginContext);
+    const handleLogout = () => {
+        context.logout();
+    };
 
-//     const handleSubmit = (e) => {
-//         e.preventDefault();
-//         loginContext.login(username, password)
-//     }
-//     return (
-//         <>
-//             {
-//                 loginContext.loggedIn ?
-//                     <button onClick={loginContext.logout}>Logout</button>
-//                     :
-//                     <form onSubmit={handleSubmit}>
-//                         <input
-//                             type='text'
-//                             placeholder='Enter your username!!'
-//                             onChange={(e) => setUsername(e.target.value)}
-//                         />
+    return (
+        <>
+            <When condition={context.loggedIn}>
+                <button onClick={handleLogout}>Log Out</button>
+            </When>
 
-//                         <input
-//                             type='password'
-//                             placeholder='Enter you password!!'
-//                             onChange={(e) => setPassword(e.target.value)}
-//                         />
-//                         <button>Login</button>
-//                     </form>
-//             }
-//         </>
-//     )
-// }
+            <When condition={!context.loggedIn}>
+                <form onSubmit={handleSubmit}>
+                    <input
+                        placeholder="UserName"
+                        name="username"
+                        onChange={handleChange}
+                    />
+                    <input
+                        placeholder="password"
+                        name="password"
+                        onChange={handleChange}
+                    />
+                    <button>Login</button>
+                </form>
+            </When>
+        </>
+    );
+}
 
-// export default Login
+export default Login;

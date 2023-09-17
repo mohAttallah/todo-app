@@ -4,11 +4,11 @@ import { When } from 'react-if';
 import './home.scss'
 import { SettingContext } from '../../Context/Settings';
 import { useContext } from 'react';
-import { LoginContext } from '../Auth/context';
+import { LoginContext } from '../../Context/Auth/context';
 function Home() {
     const settings = useContext(SettingContext);
     const context = useContext(LoginContext)
-    
+
     return (
         <When condition={context.loggedIn}>
             <section >
