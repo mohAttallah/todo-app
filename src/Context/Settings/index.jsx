@@ -1,14 +1,14 @@
 import { createContext, useEffect, useState } from 'react';
 const SettingContext = createContext();
-
 function SettingsProvider(props) {
 
-    const [defaultValues] = useState({
-        difficulty: 4,
-    });
-    const [list, setList] = useState([]);
-    const [incomplete, setIncomplete] = useState([]);
 
+    const [list, setList] = useState([]);
+    const [data, setData] = useState([]);
+
+
+    const [incomplete, setIncomplete] = useState([]);
+  
 
 
     const [itemsPerPage, setItemsPerPage] = useState(() => {
@@ -32,10 +32,11 @@ function SettingsProvider(props) {
         localStorage.setItem("sortKeyword", JSON.stringify(sortKeyword));
     }, [itemsPerPage, showCompleted, sortKeyword])
 
-    console.log(itemsPerPage)
+
+
     return (
         <div>
-            <SettingContext.Provider value={{ defaultValues, list, incomplete, setList, setIncomplete, setItemsPerPage, setShowCompleted, setSortKeyword, itemsPerPage, showCompleted, sortKeyword }}>
+            <SettingContext.Provider value={{ list, incomplete, setList, setIncomplete, setItemsPerPage, setShowCompleted, setSortKeyword, itemsPerPage, showCompleted, sortKeyword, data, setData }}>
                 {props.children}
             </SettingContext.Provider>
 

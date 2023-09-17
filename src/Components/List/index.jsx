@@ -1,64 +1,80 @@
 import { useContext, useState } from 'react';
 import { SettingContext } from '../../Context/Settings';
 import { Pagination } from '@mantine/core';
-import Auth from "../Auth/auth";
-
+import axios from 'axios';
 function List() {
     const settings = useContext(SettingContext);
-    let list = settings.list;
+    let list = settings.data;
 
     const [currentPage, setCurrentPage] = useState(1);
-    // Number of items to display per page
     const itemsPerPage = settings.itemsPerPage;
 
     const handlePageChange = (page) => {
         setCurrentPage(page);
     };
 
-    //check if the item complete or not
-    if (settings.showCompleted === false) {
-        list = list.filter(element => element.complete === false);
+    if (!settings.showCompleted) {
+        list = list.filter(item => !item.read);
     }
 
-    // Calculate start and end indices for displaying items
+    // Pagination calculations
     const startIndex = (currentPage - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
     const itemsToDisplay = list.slice(startIndex, endIndex);
 
-    function toggleComplete(id) {
-        // Find the item and update the value 'complete'
-        const updatedItems = list.map(item => {
-            if (item.id === id) {
-                item.complete = !item.complete;
-            }
-            return item;
-        });
+    async function toggleComplete(id, currentValue) {
+        try {
+            await axios.put(`https://api-auth-ehg1.onrender.com/api/v1/todo/${id}`, {
+                read: !currentValue
+            });
 
-        settings.setList(updatedItems);
+            const updatedItems = list.map(item => {
+                if (item.id === id) {
+                    return { ...item, read: !item.read };
+                }
+                return item;
+            });
+
+            settings.setList(updatedItems);
+        } catch (error) {
+            console.error("Error updating item: ", error);
+        }
+    }
+
+    async function deleteItem(id) {
+        try {
+            await axios.delete(`https://api-auth-ehg1.onrender.com/api/v1/todo/${id}`);
+            const updatedItems = list.filter(item => item.id !== id);
+            settings.setData(updatedItems);
+
+        } catch (error) {
+            console.error("Error deleting item: ", error);
+
+        }
     }
 
     return (
         <div>
-
             {itemsToDisplay.map(item => (
                 <div key={item.id}>
-                    <Auth capability='user'>
-                        <p>{item.text}</p>
-                        <p><small>Assigned to: {item.assignee}</small></p>
-                        <p><small>Difficulty: {item.difficulty}</small></p>
-                    </Auth>
-                    <Auth capability='editor'>
-                        <div onClick={() => toggleComplete(item.id)}>Complete: {item.complete.toString()}</div>
-                    </Auth>
+                    <p>{item.item}</p>
+                    <p><small>Assigned to: {item.assigned}</small></p>
+                    <p><small>Difficulty: {item.difficulty}</small></p>
+
+                    <div onClick={() => toggleComplete(item.id, item.read)}>Complete: {item.read.toString()}</div>
+
                     <hr />
+
+                    <button onClick={() => deleteItem(item.id)}>Delete</button>
                 </div>
             ))}
+
             <Pagination
                 total={Math.ceil(list.length / itemsPerPage)}
                 value={currentPage}
                 onChange={handlePageChange}
-                size="md" />
-
+                size="md"
+            />
         </div>
     );
 }
