@@ -60,6 +60,7 @@ const LoginProvider = ({ children }) => {
     const validateToken = (token) => {
         try {
             const validUser = jwt_decode(token);
+            console.log("sssssssss ",validUser)
             setLoginState(true, token, validUser);
         } catch (e) {
             setLoginState(false, null, {}, e);

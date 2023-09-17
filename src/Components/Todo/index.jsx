@@ -22,12 +22,7 @@ const Todo = () => {
         settings.setList([...settings.list, item]);
     }
 
-    function deleteItem(id) {
-        // find the item then delete 
-        const items = list.filter(item => item.id !== id);
-        settings.setList(items);
-    }
-
+   
 
 
     useEffect(() => {
@@ -41,7 +36,7 @@ const Todo = () => {
 
     return (
         <form onSubmit={handleSubmit} className='todo-section'>
-            <Auth capability='writer'>
+            <Auth capability='create'>
                 <h4>Add To Do Item</h4>
                 <label>
                     <span>To Do Item</span>

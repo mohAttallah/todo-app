@@ -37,18 +37,28 @@ function List() {
         settings.setList(updatedItems);
     }
 
+    function deleteItem(id) {
+        // find the item then delete 
+        const items = list.filter(item => item.id !== id);
+        settings.setList(items);
+    }
+
+
     return (
         <div>
 
             {itemsToDisplay.map(item => (
                 <div key={item.id}>
-                    <Auth capability='user'>
+                    <Auth capability='read'>
                         <p>{item.text}</p>
                         <p><small>Assigned to: {item.assignee}</small></p>
                         <p><small>Difficulty: {item.difficulty}</small></p>
                     </Auth>
-                    <Auth capability='editor'>
+                    <Auth capability='update'>
                         <div onClick={() => toggleComplete(item.id)}>Complete: {item.complete.toString()}</div>
+                    </Auth>
+                    <Auth capability='delete'>
+                        <button onClick={() => deleteItem(item.id)}>Delete</button>
                     </Auth>
                     <hr />
                 </div>
