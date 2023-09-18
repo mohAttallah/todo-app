@@ -29,10 +29,9 @@ const LoginProvider = ({ children }) => {
                     },
                 }
             );
-            const capabilities = loginRequest.data.user.capabilities
-            console.log("cap",capabilities)
+            const capabilities = loginRequest.data.user.capabilities;
             const token = loginRequest.data.token;
-            validateToken(token, capabilities)
+            await validateToken(token, capabilities)
         } catch (e) {
             setLoginState(false, null, {}, e);
             console.error(e);
@@ -45,12 +44,10 @@ const LoginProvider = ({ children }) => {
 
     const validateToken = (token, capabilities) => {
         try {
-            // also add the  capabiliies becuse the token does not have capabilities 
             let validUser = jwt_decode(token);
-            validUser = {
-                validUser: validUser,
-                capabilities: capabilities
-            }
+            validUser.capabilities = capabilities;
+            console.log("wwwwwww", validUser)
+
             setLoginState(true, token, validUser);
         } catch (e) {
             setLoginState(false, null, {}, e);
@@ -59,8 +56,9 @@ const LoginProvider = ({ children }) => {
     };
 
     const setLoginState = (loggedIn, token, user, error) => {
-        console.log("ssssssssssssafwe",user)
+        console.log("ssssssssssssafwe", user.capabilities)
         cookie.save('auth', token);
+        cookie.save('capabilities', user.capabilities);
         setLoggedIn(loggedIn);
         setUser(user);
         setError(error || null);
@@ -70,8 +68,10 @@ const LoginProvider = ({ children }) => {
 
         const qs = new URLSearchParams(window.location.search);
         const cookieToken = cookie.load('auth');
+        const cookieCapabilities = cookie.load('capabilities');
         const token = qs.get('token') || cookieToken || null;
-        validateToken(token);
+        const capabilities = qs.get('capabilities') || cookieCapabilities || null;
+        validateToken(token, capabilities);
     }, []);
 
     const contextValue = {

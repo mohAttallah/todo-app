@@ -1,6 +1,8 @@
 import { useContext, useState } from 'react';
 import { SettingContext } from '../../Context/Settings';
 import { Pagination } from '@mantine/core';
+import Auth from "../Auth/auth";
+
 import axios from 'axios';
 function List() {
     const settings = useContext(SettingContext);
@@ -55,19 +57,25 @@ function List() {
 
     return (
         <div>
-            {itemsToDisplay.map(item => (
-                <div key={item.id}>
-                    <p>{item.item}</p>
-                    <p><small>Assigned to: {item.assigned}</small></p>
-                    <p><small>Difficulty: {item.difficulty}</small></p>
+            <Auth capability='read'>
+                {itemsToDisplay.map(item => (
+                    <div key={item.id}>
+                        <p>{item.item}</p>
+                        <p><small>Assigned to: {item.assigned}</small></p>
+                        <p><small>Difficulty: {item.difficulty}</small></p>
+                        <Auth capability='update'>
+                            <div onClick={() => toggleComplete(item.id, item.read)}>Complete: {item.read.toString()}</div>
+                        </Auth>
+                        <hr />
 
-                    <div onClick={() => toggleComplete(item.id, item.read)}>Complete: {item.read.toString()}</div>
+                        <Auth capability='delete'>
+                            <button onClick={() => deleteItem(item.id)}>Delete</button>
+                        </Auth>
+                        <hr />
 
-                    <hr />
-
-                    <button onClick={() => deleteItem(item.id)}>Delete</button>
-                </div>
-            ))}
+                    </div>
+                ))}
+            </Auth>
 
             <Pagination
                 total={Math.ceil(list.length / itemsPerPage)}
