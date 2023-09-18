@@ -63,14 +63,21 @@ function List() {
                         <p>{item.item}</p>
                         <p><small>Assigned to: {item.assigned}</small></p>
                         <p><small>Difficulty: {item.difficulty}</small></p>
-                        <Auth capability='update'>
-                            <div onClick={() => toggleComplete(item.id, item.read)}>Complete: {item.read.toString()}</div>
+                        <Auth capability='read'>
+                            
+                            <div> {item.read ? 'Complete' : 'Pending'}</div>
+                            <Auth capability='update'>
+                                <div onClick={() => toggleComplete(item.id, item.read)}> Update tha status: {item.read.toString()}</div>
+                            </Auth>
                         </Auth>
+
+
                         <hr />
 
                         <Auth capability='delete'>
                             <button onClick={() => deleteItem(item.id)}>Delete</button>
                         </Auth>
+
                         <hr />
 
                     </div>

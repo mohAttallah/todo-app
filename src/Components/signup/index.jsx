@@ -68,9 +68,9 @@ function Signup() {
                     onChange={handleInputChange}
                 >
                     <option value="admin">admin</option>
-                    <option value="writer">writer</option>
                     <option value="editor">editor</option>
-                    <option value="delete">delete</option>
+                    <option value="writer">writer</option>
+                    <option value="user">user</option>
                 </select>
                 <button type="submit" disabled={loading}>
                     {loading ? 'Loading...' : 'Submit'}
